@@ -55,16 +55,16 @@ localhost/{{randomPort}}
 
 #### Screenshots
 <p align="center">
-<img src="https://github.com/zphoenixz/spring-fun/blob/master/screenshots/order.png" width="300" height="250">
+<img src="https://github.com/zphoenixz/web-fun/blob/master/screenshots/order.png" width="300" height="250">
 </p>
 <p align="center">
-<img src="https://github.com/zphoenixz/spring-fun/blob/master/screenshots/create-order.png" width="300" height="250">
+<img src="https://github.com/zphoenixz/web-fun/blob/master/screenshots/create-order.png" width="300" height="250">
 </p>
 <p align="center">
-<img src="https://github.com/zphoenixz/spring-fun/blob/master/screenshots/product.png" width="300" height="250">
+<img src="https://github.com/zphoenixz/web-fun/blob/master/screenshots/product.png" width="300" height="250">
 </p>
 <p align="center">
-<img src="https://github.com/zphoenixz/spring-fun/blob/master/screenshots/create-product.png" width="300" height="250">
+<img src="https://github.com/zphoenixz/web-fun/blob/master/screenshots/create-product.png" width="300" height="250">
 </p>
 
 ## My comments
