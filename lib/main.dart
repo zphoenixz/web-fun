@@ -7,9 +7,11 @@ import 'package:web_fun/core/routes.dart';
 
 import 'bl/providers/auth_provider.dart';
 import 'bl/providers/orders_provider.dart';
+import 'bl/providers/products_provider.dart';
 import 'core/theme/custom_theme.dart';
 import 'view/home_page.dart';
 import 'view/orders_page.dart';
+import 'view/products_page.dart';
 
 Future<void> main() async {
   await _init();
@@ -38,8 +40,11 @@ class MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProxyProvider<AuthProvider, OrdersProvider>(
           create: (ctx) => OrdersProvider(),
-          update: (ctx, authProvider, prevPostsProvider) =>
-              prevPostsProvider!..update(),
+          update: (ctx, authProvider, prevProvider) => prevProvider!..update(),
+        ),
+        ChangeNotifierProxyProvider<AuthProvider, ProductsProvider>(
+          create: (ctx) => ProductsProvider(),
+          update: (ctx, authProvider, prevProvider) => prevProvider!..update(),
         ),
         // ChangeNotifierProvider(
         //   create: (_) => AuthorProvider(),
@@ -69,7 +74,8 @@ class MyAppState extends State<MyApp> {
           Routes.homeRoute: (_, __) => const MaterialPage(child: HomePage()),
           Routes.ordersRoute: (_, __) =>
               const MaterialPage(child: OrdersPage()),
-          Routes.productsRoute: (_, __) => const MaterialPage(child: HomePage())
+          Routes.productsRoute: (_, __) =>
+              const MaterialPage(child: ProductsPage())
         }),
       ),
     );
