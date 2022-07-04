@@ -36,6 +36,6 @@ class HomePage extends StatelessWidget {
 
   load(BuildContext context) async {
     await Future.delayed(const Duration(seconds: 4));
-    await context.vxNav.push(Uri.parse(Routes.ordersRoute));
+    await context.vxNav.push(Uri.parse(Routes.productsRoute));
   }
 }

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:web_fun/bl/providers/products_provider.dart';
 
-import '../bl/models/order.dart';
-import '../bl/providers/orders_provider.dart';
+import '../bl/models/product.dart';
 import '../core/routes.dart';
 import '../utils/constants.dart';
-import 'form/create_order.dart';
-import 'form/edit_order.dart';
+import 'form/create_product.dart';
+import 'form/edit_product.dart';
 
-class OrdersPage extends StatefulWidget {
-  const OrdersPage({
+class ProductsPage extends StatefulWidget {
+  const ProductsPage({
     // required this.postIndex,
     Key? key,
   }) : super(key: key);
@@ -18,11 +18,11 @@ class OrdersPage extends StatefulWidget {
   // final int postIndex;
 
   @override
-  State<OrdersPage> createState() => _OrdersPageState();
+  State<ProductsPage> createState() => _ProductsPageState();
 }
 
-class _OrdersPageState extends State<OrdersPage> {
-  late OrdersProvider _ordersProvider;
+class _ProductsPageState extends State<ProductsPage> {
+  late ProductsProvider _productsProvider;
   late ScrollController _postDetailsScrollController;
 
   late bool _hoverProducts;
@@ -33,7 +33,7 @@ class _OrdersPageState extends State<OrdersPage> {
     _hoverProducts = false;
     _hoverOrders = false;
     _currentPage = 0;
-    _ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+    _productsProvider = Provider.of<ProductsProvider>(context, listen: false);
     _postDetailsScrollController = ScrollController();
     // _loadOrders();
     super.initState();
@@ -44,8 +44,8 @@ class _OrdersPageState extends State<OrdersPage> {
     super.didChangeDependencies();
   }
 
-  _loadOrders() async {
-    await _ordersProvider.getOrdersFromApi(_currentPage);
+  _loadProducts() async {
+    await _productsProvider.getProductsFromApi(_currentPage);
   }
 
   // _showToast(final String notificationText, final Color color) {
@@ -63,9 +63,7 @@ class _OrdersPageState extends State<OrdersPage> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
-      // _currentPage = 0;
-      _loadOrders();
+      _loadProducts();
     });
 
     return Scaffold(
@@ -88,33 +86,9 @@ class _OrdersPageState extends State<OrdersPage> {
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: Center(
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                onEnter: (PointerEvent details) =>
-                    setState(() => _hoverOrders = true),
-                onExit: (PointerEvent details) =>
-                    setState(() => _hoverOrders = false),
-                child: Text(
-                  "Orders",
-                  style: TextStyle(
-                    fontSize: Constants.subtitleFont,
-                    fontFamily: Constants.mainFont,
-                    color: _hoverOrders
-                        ? Constants.purpleColor
-                        : Constants.mediumBlackColor,
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 40.0),
-            child: Center(
               child: GestureDetector(
                 onTap: () async =>
-                    await context.vxNav.push(Uri.parse(Routes.productsRoute)),
+                    await context.vxNav.push(Uri.parse(Routes.ordersRoute)),
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   onEnter: (PointerEvent details) =>
@@ -122,7 +96,7 @@ class _OrdersPageState extends State<OrdersPage> {
                   onExit: (PointerEvent details) =>
                       setState(() => _hoverProducts = false),
                   child: Text(
-                    "Products",
+                    "Orders",
                     style: TextStyle(
                       fontSize: Constants.subtitleFont,
                       fontFamily: Constants.mainFont,
@@ -132,6 +106,30 @@ class _OrdersPageState extends State<OrdersPage> {
                           ? TextDecoration.underline
                           : TextDecoration.none,
                     ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 40.0),
+            child: Center(
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                onEnter: (PointerEvent details) =>
+                    setState(() => _hoverOrders = true),
+                onExit: (PointerEvent details) =>
+                    setState(() => _hoverOrders = false),
+                child: Text(
+                  "Products",
+                  style: TextStyle(
+                    fontSize: Constants.subtitleFont,
+                    fontFamily: Constants.mainFont,
+                    color: _hoverOrders
+                        ? Constants.purpleColor
+                        : Constants.mediumBlackColor,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
                   ),
                 ),
               ),
@@ -149,7 +147,7 @@ class _OrdersPageState extends State<OrdersPage> {
               child: Padding(
                 padding: EdgeInsets.only(left: 20.0, top: 60),
                 child: Text(
-                  "Orders",
+                  "Products",
                   style: TextStyle(
                     fontSize: Constants.superTitleFont,
                     fontFamily: Constants.mainFont,
@@ -164,7 +162,7 @@ class _OrdersPageState extends State<OrdersPage> {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: ElevatedButton(
-                  onPressed: () => _createOrderDialog(),
+                  onPressed: () => _createProductDialog(),
                   style: ElevatedButton.styleFrom(
                     primary: Constants.blazeColor,
                     shape: RoundedRectangleBorder(
@@ -175,7 +173,7 @@ class _OrdersPageState extends State<OrdersPage> {
                   child: const Padding(
                     padding: EdgeInsets.all(10.0),
                     child: Text(
-                      'Create Order',
+                      'Create Product',
                       style: TextStyle(
                         fontSize: Constants.bodyFont,
                         fontFamily: Constants.mainFont,
@@ -189,13 +187,13 @@ class _OrdersPageState extends State<OrdersPage> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20.0, top: 30, right: 40.0),
-              child: Selector<OrdersProvider, List<Order>>(
+              child: Selector<ProductsProvider, List<Product>>(
                 selector:
-                    (BuildContext context, OrdersProvider ordersProvider) =>
-                        ordersProvider.currentOrders,
+                    (BuildContext context, ProductsProvider productsProvider) =>
+                        productsProvider.currentProducts,
                 shouldRebuild: (previous, next) => true,
-                builder: (context, List<Order> currentOrders, child) {
-                  return currentOrders.isNotEmpty
+                builder: (context, List<Product> currentProducts, child) {
+                  return currentProducts.isNotEmpty
                       ? Table(
                           columnWidths: const {
                             0: FlexColumnWidth(1),
@@ -207,7 +205,7 @@ class _OrdersPageState extends State<OrdersPage> {
                           },
                           border:
                               TableBorder.all(width: 1, color: Colors.black45),
-                          children: _buildTableRows(currentOrders),
+                          children: _buildTableRows(currentProducts),
                         )
                       : const Center(
                           child: SizedBox(
@@ -228,7 +226,7 @@ class _OrdersPageState extends State<OrdersPage> {
                     onTap: () {
                       if (_currentPage - 1 >= 0) {
                         setState(() => _currentPage -= 1);
-                        _loadOrders();
+                        _loadProducts();
                       }
                     },
                     child: Container(
@@ -287,7 +285,7 @@ class _OrdersPageState extends State<OrdersPage> {
                   GestureDetector(
                     onTap: () {
                       setState(() => _currentPage += 1);
-                      _loadOrders();
+                      _loadProducts();
                     },
                     child: Container(
                       height: 40,
@@ -327,26 +325,26 @@ class _OrdersPageState extends State<OrdersPage> {
     );
   }
 
-  _buildTableRows(final List<Order> orders) {
+  _buildTableRows(final List<Product> product) {
     final List<TableRow> rows = [];
     rows.add(TableRow(children: [
       _buildColumnHeader("N#"),
-      _buildColumnHeader("Consumer"),
+      _buildColumnHeader("Name"),
+      _buildColumnHeader("Category"),
+      _buildColumnHeader("Price"),
       _buildColumnHeader("Status"),
-      _buildColumnHeader("Date"),
-      _buildColumnHeader("Total"),
       _buildColumnHeader("Actions"),
     ]));
-    for (int i = 0; i < orders.length; i++) {
+    for (int i = 0; i < product.length; i++) {
       rows.add(
         TableRow(
           children: [
-            _buildColumn((orders[i].orderNumber).toString()),
-            _buildColumn(orders[i].customer!),
-            _buildColumn(orders[i].status!),
-            _buildColumn(orders[i].createdAt!),
-            _buildColumn(orders[i].totalAmount.toString()),
-            _buildCTAColumn(orders[i])
+            _buildColumn(((i + 1) + _currentPage * 4).toString()),
+            _buildColumn(product[i].name!),
+            _buildColumn(product[i].category!),
+            _buildColumn(product[i].unitPrice!.toString()),
+            _buildColumn(product[i].active!.toString()),
+            _buildCTAColumn(product[i])
           ],
         ),
       );
@@ -395,14 +393,14 @@ class _OrdersPageState extends State<OrdersPage> {
     );
   }
 
-  _buildCTAColumn(final Order order) {
+  _buildCTAColumn(final Product product) {
     return TableCell(
       child: Container(
         height: Constants.toolbarHeight / 2,
         color: Constants.lightBlackColor,
         child: Center(
           child: GestureDetector(
-            onTap: () => _editOrderDialog(order),
+            onTap: () => _editProductDialog(product),
             child: const MouseRegion(
               cursor: SystemMouseCursors.click,
               child: Text(
@@ -422,20 +420,20 @@ class _OrdersPageState extends State<OrdersPage> {
     );
   }
 
-  Future<void> _createOrderDialog() async {
+  Future<void> _createProductDialog() async {
     return await showDialog(
       context: context,
       builder: (context) {
-        return const CreateOrderForm();
+        return const CreateProductForm();
       },
     );
   }
 
-  Future<void> _editOrderDialog(Order order) async {
+  Future<void> _editProductDialog(Product product) async {
     return await showDialog(
       context: context,
       builder: (context) {
-        return EditOrderForm(order: order);
+        return EditProductForm(product: product);
       },
     );
   }
