@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +16,7 @@ class OrdersProvider with ChangeNotifier {
     return _currentOrders;
   }
 
+  int _lastPage = 0;
   // Future<void> updatePost(
   //     final int postIndex, final PostInteraction postToUpdate) async {
   //   _currentPosts[postIndex] = postToUpdate;
@@ -27,12 +25,29 @@ class OrdersProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  Future<void> getOrdersFromApi() async {
-    log("Loading posts from API...");
-    // _currentPosts.clear();
+  Future<void> getOrdersFromApi(final int currentPage) async {
+    if (_currentOrders.isEmpty || _lastPage != currentPage) {
+      _currentOrders = await _api.getOrders(currentPage);
+      showToast("Orders fetched", const Color.fromARGB(255, 58, 175, 62));
+      _lastPage = currentPage;
+      notifyListeners();
+    }
 
+    return;
+  }
+
+  Future<void> createOrderFromApi(final Order newOrder) async {
+    await _api.createOrder(newOrder);
+    showToast("Order Created!", const Color.fromARGB(255, 58, 175, 62));
     _currentOrders = await _api.getOrders(0);
-    showToast("Posts loaded", Constants.darkOkColor);
+    notifyListeners();
+    return;
+  }
+
+  Future<void> patchOrderFromApi(final Order newOrder) async {
+    await _api.patchOrder(newOrder);
+    showToast("Order Patched!", const Color.fromARGB(255, 58, 175, 62));
+    _currentOrders = await _api.getOrders(0);
     notifyListeners();
     return;
   }
