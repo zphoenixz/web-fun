@@ -1,56 +1,69 @@
 import 'dart:convert';
 
 import 'package:web_fun/bl/models/product.dart';
+import 'package:web_fun/bl/models/product_qty.dart';
 
-Order authorFromJson(String str) => Order.fromJson(json.decode(str));
+import 'tax_amounts.dart';
 
-String authorToJson(Order data) => json.encode(data.toJson());
+Order orderFromJson(String str) => Order.fromJson(json.decode(str));
+
+String orderToJson(Order data) => json.encode(data.toJson());
 
 class Order {
   Order({
-    required this.id,
-    required this.orderNumber,
-    required this.status,
-    required this.customer,
-    required this.date,
-    required this.taxesAmounts,
-    required this.totalTaxes,
-    required this.totalAmount,
-    required this.products,
+    this.orderId,
+    this.orderNumber,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.customer,
+    this.taxAmounts,
+    this.totalTaxes,
+    this.totalAmount,
+    this.products,
   });
 
-  final int id;
-  final String orderNumber;
-  final String status;
-  final String customer;
-  final String date;
-  final double taxesAmounts;
-  final double totalTaxes;
-  final double totalAmount;
-  final List<Product> products;
+  String? orderId;
+  int? orderNumber;
+  String? status;
+  String? createdAt;
+  String? updatedAt;
+  String? customer;
+  TaxAmounts? taxAmounts;
+  double? totalTaxes;
+  double? totalAmount;
+  List<ProductQty>? products;
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
-        id: json["id"],
+        orderId: json["orderId"],
         orderNumber: json["orderNumber"],
         status: json["status"],
+        createdAt: json["createdAt"],
+        updatedAt: json["updatedAt"],
         customer: json["customer"],
-        date: json["date"],
-        taxesAmounts: json["taxesAmounts"],
-        totalTaxes: json["totalTaxes"],
-        totalAmount: json["totalAmount"],
-        products: List<Product>.from(
-            json["products"].map((x) => Product.fromJson(x))),
+        taxAmounts: json["taxAmounts"] != null
+            ? TaxAmounts.fromJson(json["taxAmounts"])
+            : null,
+        totalTaxes:
+            json["totalTaxes"] != null ? json["totalTaxes"].toDouble() : null,
+        totalAmount:
+            json["totalAmount"] != null ? json["totalAmount"].toDouble() : null,
+        products: json["products"] != null
+            ? List<ProductQty>.from(
+                json["products"].map((x) => ProductQty.fromJson(x)))
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": orderNumber,
+        "orderId": orderId,
+        "orderNumber": orderNumber,
         "status": status,
+        "createdAt": createdAt,
+        "updatedAt": updatedAt,
         "customer": customer,
-        "email": date,
-        "date": taxesAmounts,
+        "taxAmounts": taxAmounts?.toJson(),
         "totalTaxes": totalTaxes,
         "totalAmount": totalAmount,
-        "products": List<dynamic>.from(products.map((x) => x.toJson())),
+        "products": List<dynamic>.from(products!.map((x) => x.toJson())),
       };
 }

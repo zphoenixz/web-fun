@@ -1,37 +1,46 @@
 import 'dart:convert';
 
-Product authorFromJson(String str) => Product.fromJson(json.decode(str));
+Product productFromJson(String str) => Product.fromJson(json.decode(str));
 
-String authorToJson(Product data) => json.encode(data.toJson());
+String productToJson(Product data) => json.encode(data.toJson());
 
 class Product {
   Product({
-    required this.id,
-    required this.name,
-    required this.category,
-    required this.unitPrice,
-    required this.active,
+    this.productId,
+    this.name,
+    this.category,
+    this.unitPrice,
+    this.active,
+    this.createdAt,
+    this.updatedAt,
   });
 
-  final int id;
-  final String name;
-  final String category;
-  final double unitPrice;
-  final bool active;
+  String? productId;
+  String? name;
+  String? category;
+  double? unitPrice;
+  String? active;
+  String? createdAt;
+  String? updatedAt;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json["id"],
+        productId: json["productId"],
         name: json["name"],
         category: json["category"],
-        unitPrice: json["unitPrice"],
-        active: json["active"],
+        unitPrice:
+            json["unitPrice"] != null ? json["unitPrice"].toDouble() : null,
+        active: json["active"].toString(),
+        createdAt: json["createdAt"],
+        updatedAt: json["updatedAt"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "productId": productId,
         "name": name,
         "category": category,
         "unitPrice": unitPrice,
         "active": active,
+        "createdAt": createdAt,
+        "updatedAt": updatedAt,
       };
 }
