@@ -1,16 +1,75 @@
-# web_fun
+# WEB FUN
 
-A new Flutter project.
+A single website written with flutter with two Crud models connected with an Spring DB in order to have fun with a Fullstack challenge.
 
-## Getting Started
+#### Features
+* *View* Home page.
+* *View* Orders page.
+* *View* Products page.
 
-This project is a starting point for a Flutter application.
+* *Get* Paginated Orders.
+* *Post* Create Orders.
+* *Patch* Update Orders.
+* *Get* Paginated Products.
+* *Post* Create Products.
+* *Patch* Update Products.
+* *Delete* Delete Products.
 
-A few resources to get you started if this is your first Flutter project:
+#### Technical Features
+* *MVProvider pattern*.
+* Flutter 3.0.3.
+* Dart 2.10.2.
+* Tested on Chrome Only
+* Pseudo Responsive
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Running
+0. Prerequisites - Technical
+```
+Be aware on having above versions
+```
+0. Prerequisites - Backend
+```
+Go to clone and run using README on the following repo:
+https://github.com/zphoenixz/spring-fun
+```
+1. Get the repo
+```
+git clone git@github.com:zphoenixz/web-fun.git
+```
+2. Go to the repo folder
+```
+cd web-fun
+```
+3. Install flutter libs
+```
+flutter pub get
+```
+4. Start Flutter Application
+```
+flutter run -d chrome
+```
+5. Test WEB on CHROME
+```
+localhost/{{randomPort}}
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### Screenshots
+<p align="center">
+<img src="https://github.com/zphoenixz/spring-fun/blob/master/screenshots/order.png" width="300" height="250">
+</p>
+<p align="center">
+<img src="https://github.com/zphoenixz/spring-fun/blob/master/screenshots/create-order.png" width="300" height="250">
+</p>
+<p align="center">
+<img src="https://github.com/zphoenixz/spring-fun/blob/master/screenshots/product.png" width="300" height="250">
+</p>
+<p align="center">
+<img src="https://github.com/zphoenixz/spring-fun/blob/master/screenshots/create-product.png" width="300" height="250">
+</p>
+
+## My comments
+It is simple enough to fullfill the challenge, some improvements that needs to be done see are:
+* Decouple multiple some widgets that are 
+* Work in cleanning some constants.
+* Improve the UI responsiveness
+* more....
