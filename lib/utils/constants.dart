@@ -18,6 +18,7 @@ class Constants {
   static const Color redCancelColor = Color.fromARGB(255, 245, 58, 58);
   static const Color blueLinkColor = Color.fromARGB(255, 58, 145, 245);
   static const Color purpleColor = Color.fromARGB(255, 155, 89, 235);
+  static const Color blazeColor = Color(0xff1CC4E8);
 
   static const double toolbarHeight = 80;
 }
